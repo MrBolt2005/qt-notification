@@ -16,8 +16,14 @@ class QtAbstractNotifier : public QObject
 {
     Q_OBJECT
 
-public:
+public slots:
     virtual bool show(const QVariant &notificationParameters) = 0;
+    virtual bool setVisible(bool visible) = 0;
+    virtual bool hide() = 0;
+
+signals:
+    void activated();
+    void messageClicked();
 };
 
 #endif // QTABSTRACTNOTIFIER_H
