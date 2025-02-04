@@ -2,8 +2,7 @@
 #define QTDESKTOPNOTIFIER_H
 
 #include "QtAbstractNotifier.h"
-
-#include <memory>
+#include "QtNotifierFactory.h"
 
 #include <QAtomicInt>
 #include <QReadWriteLock>
@@ -23,27 +22,28 @@ public:
 
     MessageIcon icon() override;
     void setIcon(MessageIcon icon) override;
-    QTABSTRACTNOTIFIER_CONSTEXPR_IF_CXX20 bool hasIcon() override { return true; }
+    _CONSTEXPR_IF_VIRTUAL_SUPPORTED bool hasIcon() override { return true; }
     QString caption() override;
     void setCaption(const QString &caption) override;
-    QTABSTRACTNOTIFIER_CONSTEXPR_IF_CXX20 bool hasCaption() override { return true; }
+    _CONSTEXPR_IF_VIRTUAL_SUPPORTED bool hasCaption() override { return true; }
     QString title() override;
     void setTitle(const QString &title) override;
-    QTABSTRACTNOTIFIER_CONSTEXPR_IF_CXX20 bool hasTitle() { return true; };
+    _CONSTEXPR_IF_VIRTUAL_SUPPORTED bool hasTitle() { return true; };
     QVariant id() override;
     void setId(const QVariant &id) override;
-    QTABSTRACTNOTIFIER_CONSTEXPR_IF_CXX20 bool hasId() override { return true; }
+    _CONSTEXPR_IF_VIRTUAL_SUPPORTED bool hasId() override { return true; }
     int msecs() override;
     void setMsecs(int msecs) override;
-    QTABSTRACTNOTIFIER_CONSTEXPR_IF_CXX20 bool hasMsecs() override { return true; }
+    _CONSTEXPR_IF_VIRTUAL_SUPPORTED bool hasMsecs() override { return true; }
+    bool isVisible() override;
 
 public slots:
     bool show() override;
-    virtual bool setVisible(bool visible) = 0;
-    virtual bool hide() = 0;
+    bool setVisible(bool visible) override;
+    bool hide() override;
 
 private:
-    std::unique_ptr<QSystemTrayIcon> m_SystemTrayIcon;
+    QSystemTrayIcon *m_SystemTrayIcon;
     MessageIcon m_icon;
     QString m_caption, m_title;
     QVariant m_id;
